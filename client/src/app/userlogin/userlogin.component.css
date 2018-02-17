@@ -1,0 +1,14 @@
+.listContainer{
+  padding: 30px;
+}
+
+.article-card{
+    width: 23.5%;
+    position: relative;
+    float: left;
+    min-height: 200px;
+    margin:25px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: block;
+}
