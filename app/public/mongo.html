@@ -1,0 +1,190 @@
+<!-- index.html -->
+<!doctype html>
+
+<html ng-app="haystaxInterview">
+<head>
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Haystax - Interview</title>
+
+    <!-- Style -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+    .dataCards {
+    width: 50%;
+    margin: 0;
+    position: relative;
+    float: left;
+}
+        .card-block{
+            padding: 25px;
+        }
+    </style>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" ></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script><!-- load angular -->
+    <script src="core.js"></script>
+
+</head>
+    
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class="container">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/twitter">Twitter</a>
+      </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/mongo">MongoDB<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/register">User Registration</a>
+      </li>
+    </ul>
+  </div>
+</div>
+</nav>
+    
+<!-- SET THE CONTROLLER AND GET ALL TODOS -->
+<body ng-controller="mongoController">
+    <div class="container">
+        
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#data" aria-expanded="false" aria-controls="data">
+      Show Data
+  </button>
+ <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModalLong" class="nav-link active" href="#">
+      Add Data
+  </button>      
+<div class="collapse" id="data">
+    <div class="dataCards"  ng-repeat="mongoCollection in mongoCollections">
+        <div class="card card-body">
+            <h4 class="card-title">Date : {{ mongoCollection.date | date :  "dd.MM.y" }}</h4>            
+            <p class="card-text"> Words : {{ mongoCollection.wordlist }}</p>
+        </div>
+    </div>
+</div>
+        
+
+<div class="container">
+<div ng-show="stepOne"  class="card">
+  <div class="card-header">
+    Step 1
+  </div>
+  <div class="card-block">
+    <h4 class="card-title">Here we have recieved a list of words from the Collection.</h4>
+    
+    <p class="card-text">A few things have just happened behind the scenes:</p>
+      <ul>
+          <li>Retrieved data from MongoDB</li>
+          <li>Used a mapReduce to create 3 collections</li>
+          <ul>
+              <li>One collection for all words</li>
+              <li>One collection for words used in last 24 hours</li>
+              <li>One collection for words used in the 24 hours before</li>
+          </ul>
+      </ul>
+    <p class="card-text">While I have created this front end, I used MapReduce as the question only mentioned using MongoDB. I wanted to create a user friendly interface to display this data but did not want to rely on Angular or JavaScript for the logic of this question.</p>
+      
+     <button type="submit" class="btn btn-primary btn-lg" ng-click="getWordCount()">Next</button>
+  </div>
+</div>
+
+        
+<div ng-show="stepTwo"  class="card">
+  <div class="card-header">
+    Step 2
+  </div>
+  <div class="card-block">
+    <h4 class="card-title">So now we have multiple collections</h4>
+          <p class="card-text">We have used MapReduce to store each word as a key, and its frequency as a value:</p>
+     <h4> Words </h4>
+      <span ng-repeat="word in words">{{ word._id }} - {{word.value}}  &nbsp;</span>
+      
+    <p class="card-text">Most common word in collection is: <span>{{ words[0]._id }} - {{words[0].value}}</span></p>
+    <button type="submit" class="btn btn-primary btn-lg" ng-click="getTrends()">Next</button>
+  </div>
+</div>
+        
+</div>            
+
+<div ng-show="stepThree"  class="card">
+  <div class="card-header">
+    Step 3
+  </div>
+  <div class="card-block">
+    <h4 class="card-title">So now we use our MapReduced collection for the past 24 hours</h4>
+          <p class="card-text">Here are the words used in the past 24 hours:</p>
+      <span ng-repeat="trend in trends">{{ trend._id }} - {{trend.value}}  &nbsp;</span>
+      
+    <p class="card-text">Most common word in past 24 hours is: <span>{{ trends[0]._id }} - {{trends[0].value}}</span></p>
+    <button type="submit" class="btn btn-primary btn-lg" ng-click="getFinal()">Next</button>
+  </div>
+</div>
+        
+<div ng-show="stepFour"  class="card">
+  <div class="card-header">
+    Step 4
+  </div>
+  <div class="card-block">
+    <h4 class="card-title">Final steps to produce trending words.</h4>
+          <p class="card-text">So we have the most common word in the collection: <span>{{ words[0]._id }} - {{words[0].value}}</span></p>
+          <p class="card-text">So we have the most common word in the past 24 hours: <span>{{ trends[0]._id }} - {{trends[0].value}}</span></p>
+      <p class="card-text">Now to get the most trending we mapReduce once more, this time with a reduce function that subtracts the values of the previous 24 hours from the most recent 24 hours, this gives us a collection of how much a word's use has changed in the past 24 hours:
+                <span ng-repeat="final in finals">{{ final._id }} - {{final.value}}  &nbsp;</span>
+</p>
+      <p class="card-text">Most trending word in the past 24 hours is: <span>{{ finals[0]._id }} - {{finals[0].value}}</span></p>
+      
+    <p class="card-text">Most common word in collection is: <span>{{ trends[0]._id }} - {{trends[0].value}}</span></p>
+    <button type="submit" class="btn btn-primary btn-lg" ng-click="getFinal()">Final Thoughts</button>
+  </div>
+</div>
+        
+</div>            
+            
+        
+        
+<!-- add data Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Add Item</h5>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label for="phone">Date</label>  
+            <input required type="date" class="form-control" id="date" ng-model="formData.date">
+          </div>
+          <div class="form-group">
+            <label for="string">Word List</label>         
+            <input required type="string" class="form-control" id="string" ng-model="formData.wordList">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" ng-click="addData()" data-dismiss="modal" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+        
+
+    
+
+    </div>
+
+</body>
+</html>
+

@@ -1,7 +1,6 @@
 <!-- index.html -->
 <!doctype html>
 
-<!-- ASSIGN OUR ANGULAR MODULE -->
 <html ng-app="haystaxInterview">
 <head>
     <!-- META -->
@@ -10,56 +9,70 @@
 
     <title>Haystax - Interview</title>
 
-    <!-- SCROLLS -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
-    <style>
-        html                    { overflow-y:scroll; }
-        body                    { padding-top:50px; }
-        #todo-list              { margin-bottom:30px; }
-    </style>
+    <!-- Styles -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-    <!-- SPELLS -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
+ <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" ></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script><!-- load angular -->
     <script src="core.js"></script>
 
 </head>
-<!-- SET THE CONTROLLER AND GET ALL TODOS -->
-<body ng-controller="mainController">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class="container">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/twitter">Twitter</a>
+      </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/mongo">MongoDB</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/register">User Registration<span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
+</div>
+</nav>
+
+    <body ng-controller="loginController">
     <div class="container">
-
-
-        <!-- TODO LIST -->
-        <div id="todo-list" class="row">
-            <div class="col-sm-4 col-sm-offset-4">
-
-                <!-- LOOP OVER THE TODOS IN $scope.todos -->
-                <div class="checkbox" ng-repeat="user in users">
-                    <label>
-                       {{ user.username }}
-                    </label>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- FORM TO CREATE TODOS -->
-        <div id="todo-form" class="row">
-            <div class="col-sm-8 col-sm-offset-2 text-center">
-                <form>
-                    <div class="form-group">
-
-                        <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-                        <input type="text" class="form-control input-lg text-center" placeholder="Email" ng-model="formData.email">
-                        <input type="text" class="form-control input-lg text-center" placeholder="password" ng-model="formData.password">
-                        <input type="text" class="form-control input-lg text-center" placeholder="Phone Number" ng-model="formData.phone">
-                    </div>
-
-                    <!-- createToDo() WILL CREATE NEW TODOS -->
-                    <button type="submit" class="btn btn-primary btn-lg" ng-click="userReg()">Register</button>
-                </form>
-            </div>
-        </div>
+        <form ng-show="showform" name="registration">
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input required type="email" class="form-control" id="email" placeholder="Enter email"  ng-model="formData.email">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input required type="password" class="form-control" id="password" placeholder="Password" ng-model="formData.password">
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone</label>      
+             <input type="number" class="form-control" 
+                           ng-minlength="10" 
+                           ng-maxlength="10"  
+                           id="phone" 
+                            name="phone"
+                           placeholder="Phone" 
+                           ng-model="formData.phone"
+                  ng-pattern="/^[0-9][0-9]{9}$/" required>
+            <span ng-show="registration.phone.$error.pattern">Please enter valid number!</span>
+          </div>
+          <button type="submit" ng-click="userReg()" class="btn btn-primary">Register</button>
+        </form>
+        
+        
+    <div ng-show="showthank">Thank you for registering {{ formData.email }}</div>    
 
     </div>
 
