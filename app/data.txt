@@ -1,0 +1,11 @@
+{"_id":"5a8a1d2e80a0080854c52733","date":"2018-02-17T17:00:00.000Z","wordlist":["test","more","stop","something","goes","here"]},
+{"_id":"5a8a1d4580a0080854c52734","date":"2017-02-16T17:00:00.000Z","wordlist":["two","check","stop","no","goes","here"]},
+{"_id":"5a8a1d5680a0080854c52735","date":"2018-02-18T17:00:00.000Z","wordlist":["what","this","testing","something","goes","here"]},
+{"_id":"5a8a380280a0080854c52736","date":"2017-02-19T17:00:00.000Z","wordlist":["test","more","exam","something","goes","here"]},
+{"_id":"5a8a39cb80a0080854c52737","date":"2018-02-19T23:00:00.000Z","wordlist":["some","more","testing","sturdy","goes","here"]},
+{"_id":"5a8a523f80a0080854c52738","date":"2018-02-19T17:00:00.000Z","wordlist":["test","color","blue","orange","goes","here"]},
+{"_id":"5a8a523f80a0080854c52739","date":"2018-02-19T17:00:00.000Z","wordlist":["test","more","testing","something","goes","here"]},
+{"_id":"5a8a523f80a0080854c52740","date":"2018-02-18T17:00:00.000Z","wordlist":["seven","when","testing","something","goes","here"]},
+{"_id":"5a8a523f80a0080854c52741","date":"2018-02-20T17:00:00.000Z","wordlist":["test","more","where","something","goes","here"]},
+{"_id":"5a8a523f80a0080854c52742","date":"2018-02-19T17:00:00.000Z","wordlist":["test","even","testing","something","goes","here"]},
+{"_id":"5a8a523f80a0080854c52743","date":"2018-02-20T17:00:00.000Z","wordlist":["test","more","testing","odd","goes","here"]}

@@ -11,7 +11,27 @@
 
     <!-- Styles -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
+   <style>
+    .dataCards {
+    width: 50%;
+    margin: 0;
+    position: relative;
+    float: left;
+    min-height: 200px;
+    padding:10px;
+}
+        .card-block{
+            padding: 25px;
+        }
+       
+       .twitter-form{
+           margin: auto;
+           padding: 20px;
+       }
+       .full-width{
+           width: 100%;
+       }
+    </style>
  <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -49,15 +69,14 @@
 
         <!-- Twitter List LIST -->
         <div id="twitter-list" class="row">
-            <div class="col-sm-4 col-md-12 ">
         <!-- Search for twitter-->
-        <div id="twitter-form" class="row">
-            <div class="col-sm-8 col-sm-offset-2 text-center">
+        <div class= "twitter-form" id="twitter-form" class="row">
+            <div class="text-center">
                 <form>
                     <div class="form-group">
 
                         <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-                        <input type="text" class="form-control input-lg text-center" placeholder="@handle" ng-model="twitterSearch.handle">
+                        <input type="text" class="form-control input-lg text-center" placeholder="Handle" ng-model="twitterSearch.handle">
                     </div>
 
                     <!-- createToDo() WILL CREATE NEW TODOS -->
@@ -65,25 +84,32 @@
                 </form>
             </div>
         </div>
-                
+<div ng-show="results">  
+    <div class="container">
+      <h1 class="display-4">{{tweets[0].user.name}}</h1><p class="lead">@{{tweets[0].user.screen_name}}</p>
+    <p class="lead">Displaying last Five Tweets</p>
+</div>
                 <!-- LOOP OVER THE twitter IN $scope.twitter -->
-                <div class="col-md-4" ng-repeat="tweet in tweets">
-                    
-                    <div>
-                        {{tweet.created_at}}
-                    </div>      
-                    
-                    <div>
-                        {{tweet.text}}
-                    </div>
-                    
-                    <div>English Word Count: {{tweet.wordCount}}</div>
-                </div>
-
+    <div class="dataCards" ng-repeat="tweet in tweets">
+        <div class="card card-body">
+            <h4 class="card-title">Date : {{ tweet.date | date :  "dd.MM.y" }}</h4>            
+            <p class="card-text">   {{tweet.text}}</p>
+            <p class="card-text">   English Word Count: {{tweet.wordCount}}</p>
+        </div>
+    </div>
+</div>
+            
+<div ng-show="failure" class="full-width jumbotron jumbotron-fluid">  
+    <div class="container">
+      <h1 class="display-4">Oh No!</h1>
+        <p class="lead">we didnt find any results for the Username/Handle: <strong>{{handle}}</strong></p>
+<p class="lead">Check the username and try again!</p>
+</div>
+</div>
+            
             </div>
         </div>
 
-    </div>
 
 </body>
 </html>

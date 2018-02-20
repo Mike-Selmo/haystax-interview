@@ -21,6 +21,16 @@
         .card-block{
             padding: 25px;
         }
+        
+        .full-width{
+            margin-top: 10px;
+            width: 100%;
+        }
+        .button-row{
+            text-align: center;
+            margin: auto;
+            padding: 20px;
+        }
     </style>
 
     <!-- Scripts -->
@@ -60,13 +70,15 @@
 <!-- SET THE CONTROLLER AND GET ALL TODOS -->
 <body ng-controller="mongoController">
     <div class="container">
-        
+  <div class ="button-row">      
   <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#data" aria-expanded="false" aria-controls="data">
       Show Data
   </button>
  <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModalLong" class="nav-link active" href="#">
       Add Data
-  </button>      
+  </button> 
+        
+    </div>
 <div class="collapse" id="data">
     <div class="dataCards"  ng-repeat="mongoCollection in mongoCollections">
         <div class="card card-body">
@@ -78,7 +90,7 @@
         
 
 <div class="container">
-<div ng-show="stepOne"  class="card">
+<div ng-show="stepOne"  class="full-width card">
   <div class="card-header">
     Step 1
   </div>
@@ -102,7 +114,7 @@
 </div>
 
         
-<div ng-show="stepTwo"  class="card">
+<div ng-show="stepTwo" class="full-width card">
   <div class="card-header">
     Step 2
   </div>
@@ -119,7 +131,7 @@
         
 </div>            
 
-<div ng-show="stepThree"  class="card">
+<div ng-show="stepThree"  class="full-width card">
   <div class="card-header">
     Step 3
   </div>
@@ -133,7 +145,7 @@
   </div>
 </div>
         
-<div ng-show="stepFour"  class="card">
+<div ng-show="stepFour"  class="full-width card">
   <div class="card-header">
     Step 4
   </div>
@@ -142,12 +154,27 @@
           <p class="card-text">So we have the most common word in the collection: <span>{{ words[0]._id }} - {{words[0].value}}</span></p>
           <p class="card-text">So we have the most common word in the past 24 hours: <span>{{ trends[0]._id }} - {{trends[0].value}}</span></p>
       <p class="card-text">Now to get the most trending we mapReduce once more, this time with a reduce function that subtracts the values of the previous 24 hours from the most recent 24 hours, this gives us a collection of how much a word's use has changed in the past 24 hours:
-                <span ng-repeat="final in finals">{{ final._id }} - {{final.value}}  &nbsp;</span>
-</p>
-      <p class="card-text">Most trending word in the past 24 hours is: <span>{{ finals[0]._id }} - {{finals[0].value}}</span></p>
+      </p>
+               
+         <p> <span ng-repeat="final in finals">{{ final._id }} - {{final.value - 1}}  &nbsp;</span></p>
+ <p class="card-text">Most trending word(s) in the past 24 hours is: <span>{{ finals[0]._id }} - {{finals[0].value -1}}</span></p>
       
-    <p class="card-text">Most common word in collection is: <span>{{ trends[0]._id }} - {{trends[0].value}}</span></p>
-    <button type="submit" class="btn btn-primary btn-lg" ng-click="getFinal()">Final Thoughts</button>
+    <button type="submit" class="btn btn-primary btn-lg" ng-click="finalThoughts()">Final Thoughts</button>
+  </div>
+</div>
+        
+<div ng-show="stepFive"  class="full-width card">
+  <div class="card-header">
+End  </div>
+  <div class="card-block">
+    <h4 class="card-title">Final Thoughts.</h4>
+          <p class="card-text">So this is the chellenge I struggled with the most if I am honest.</p>
+          <p class="card-text">I know that the logic does not account for ties. However, I was not sure how to resolve that with MongoDB - while I could have wrote some logic to do that and filter using angular, I was afraid I had already slightly over-engineered this chellenge.</p>
+      <p class="card-text">
+          
+      </p>
+      
+    <a type="submit" class="btn btn-primary btn-lg" href="/mongo">Reset</a>
   </div>
 </div>
         

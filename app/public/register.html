@@ -11,7 +11,12 @@
 
     <!-- Styles -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
+<style>
+    .form-box{
+    width: 50%;
+    margin-top: 50px;
+    }
+    </style>
  <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -45,16 +50,24 @@
 </div>
 </nav>
 
-    <body ng-controller="loginController">
-    <div class="container">
+<body ng-controller="loginController">
+    <div class=" form-box container">
         <form ng-show="showform" name="registration">
           <div class="form-group">
+            <label for="Name">Name</label>
+            <input required type="text" class="form-control" name="name" id="name" placeholder="Name"  ng-model="formData.name">
+                            <span ng-show="registration.name.$error.required">Name is required!</span>
+          </div>
+              <div class="form-group">
             <label for="email">Email address</label>
-            <input required type="email" class="form-control" id="email" placeholder="Enter email"  ng-model="formData.email">
+            <input required type="email" class="form-control" id="email" name="email" placeholder="email"  ng-model="formData.email">
+                    <span ng-show="registration.email.$error.email">Please enter valid email!</span>
+                    <span ng-show="registration.email.$error.required">Email is required!</span>
           </div>
           <div class="form-group">
             <label for="password">Password</label>
-            <input required type="password" class="form-control" id="password" placeholder="Password" ng-model="formData.password">
+            <input required type="password" class="form-control" name="password" id="password" placeholder="Password" ng-model="formData.password">
+                    <span ng-show="registration.password.$error.required">Password is required!</span>
           </div>
           <div class="form-group">
             <label for="phone">Phone</label>      
@@ -65,14 +78,19 @@
                             name="phone"
                            placeholder="Phone" 
                            ng-model="formData.phone"
-                  ng-pattern="/^[0-9][0-9]{9}$/" required>
-            <span ng-show="registration.phone.$error.pattern">Please enter valid number!</span>
+                  ng-pattern="/^[0-9][0-9]{9}$/">
+            <span ng-show="registration.phone.$error.pattern">Please enter valid Phone Number!</span>
           </div>
-          <button type="submit" ng-click="userReg()" class="btn btn-primary">Register</button>
+          <button ng-disabled="registration.$invalid" type="submit" ng-click="userReg()" class="btn btn-primary">Register</button>
         </form>
         
         
-    <div ng-show="showthank">Thank you for registering {{ formData.email }}</div>    
+<div ng-show="showthank" class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Thank you for registering, {{ formData.name }}</h1>
+    <p class="lead">Dev notes - this challenge only asked for 3 fields: Email, password, and phone. However, it also asked you to thank users by Name. I have added the name field to the form as well as made it required.</p>
+  </div>
+</div>        
 
     </div>
 
